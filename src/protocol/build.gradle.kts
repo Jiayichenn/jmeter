@@ -101,7 +101,14 @@ project("java") {
 }
 
 project("jdbc") {
+
+    repositories {
+        mavenLocal()
+    }
+
     dependencies {
+        implementation(fileTree(mapOf("dir" to "lib", "include" to listOf("dremio-jdbc-driver-4.6.0.jar"))))
+        implementation(files("lib/dremio-jdbc-driver-4.6.0.jar"))
         implementation("org.apache.commons:commons-dbcp2")
         implementation("org.apache.commons:commons-lang3") {
             because("StringUtils, ObjectUtils")
