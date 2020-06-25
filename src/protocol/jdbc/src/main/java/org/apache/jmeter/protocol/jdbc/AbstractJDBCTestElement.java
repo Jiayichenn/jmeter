@@ -42,6 +42,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.dremio.jdbc.DremioResultSet;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jmeter.samplers.SampleResult;
@@ -171,6 +173,7 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
                 ResultSet rs = null;
                 try {
                     rs = stmt.executeQuery(getQuery());
+                    sample.setResponseMessage(rs.unwrap(DremioResultSet.class).getQueryId());
                     sample.latencyEnd();
                     return getStringFromResultSet(rs).getBytes(ENCODING);
                 } finally {
@@ -202,6 +205,7 @@ public abstract class AbstractJDBCTestElement extends AbstractTestElement implem
                 ResultSet rs = null;
                 try {
                     rs = pstmt.executeQuery();
+                    sample.setResponseMessage(rs.unwrap(DremioResultSet.class).getQueryId());
                     sample.latencyEnd();
                     return getStringFromResultSet(rs).getBytes(ENCODING);
                 } finally {
